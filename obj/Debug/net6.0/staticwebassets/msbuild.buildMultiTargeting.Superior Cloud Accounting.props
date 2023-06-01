@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Superior Cloud Accounting.props" />
+</Project>

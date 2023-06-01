@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+
+
+.nav-container {
+    padding-left: 5vw !important;
+    padding-right: 5vw !important;
+}
+
+.main-image {
+    height: 80vh;
+    background-size: cover;
+    background-image: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(../images/person.png);
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+.services p {
+    text-justify: distribute;
+}
+
+.services h5 {
+    font-weight: normal;
+}
+
+body {
+    background-color: #f8f9fa !important;
+}
+
+#company-name {
+    font-family: 'Dancing Script', cursive;
+    color: #05295d;
+    font-size: 2.3rem;
+}
+
+.context-title {
+    font-family: 'Nanum Myeongjo', serif;
+}

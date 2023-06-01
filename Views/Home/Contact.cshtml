@@ -1,0 +1,130 @@
+﻿@page
+@{
+    
+}
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+<h3 class="text-center text-center context-title">How can we help?</h3>
+
+<div id="app" class="container w-50">
+    <form>
+        <div class="alert alert-success text-center" role="alert" hidden>
+            Your form has been submitted!
+        </div>
+        <div class="form-group m-2">
+            <label>Name</label>
+            <input id="nameInput" name="name" type="text" class="form-control" placeholder="John Doe" v-model="name">
+        </div>
+        <div class="form-group m-2">
+            <label>Email address</label>
+            <input id="emailInput" name="email" class="form-control" placeholder="name@example.com" v-model="email">
+        </div>
+        <div class="form-group m-2">
+            <label for="exampleFormControlTextarea1">Message</label>
+            <textarea class="form-control" id="messageInput" rows="5" v-model="message" maxlength="2000"></textarea>
+        </div>
+        <div class="form-group m-2">
+            <button type="button" v-on:click="submitForm()" class="btn btn-primary w-100">Submit</button>
+        </div>
+    </form>
+</div>
+
+<div id="myModal" class="modal text-center">
+
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+
+</div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                name: "",
+                email: "",
+                message: "",
+            }
+        },
+
+        methods: {
+            submitForm() {
+                var fail = false
+                if (this.name == "") {
+                    document.querySelector("#nameInput").style.border = "2px solid red";
+                    fail = true;
+                } else {
+                    document.querySelector("#nameInput").style.border = "1px solid #ced4da";
+                }
+
+                if (this.email == "") {
+                    document.querySelector("#emailInput").style.border = "2px solid red";
+                    fail = true;
+                } else {
+                    document.querySelector("#emailInput").style.border = "1px solid #ced4da";
+                }
+
+                if (this.message == "") {
+                    document.querySelector("#messageInput").style.border = "2px solid red";
+                    fail = true;
+                } else {
+                    document.querySelector("#messageInput").style.border = "1px solid #ced4da";
+                }
+
+                if (!fail) {
+                    document.querySelector("#myModal").style.display = "block";
+                    const requestOptions = {
+                        method: "POST",
+                    };
+                    fetch(`/Home/Submit?name=${this.name}&email=${this.email}&message=${this.message}`, requestOptions)
+                    .then(resp => {
+                        document.querySelector("#myModal").style.display = "none";
+                        document.querySelector(".alert").hidden = false;
+                        console.log(resp)
+                    })
+                }
+
+                
+            }
+        }
+    }).mount('#app');
+</script>
