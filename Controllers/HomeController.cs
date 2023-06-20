@@ -2,14 +2,8 @@
 using Newtonsoft.Json;
 using Superior_Cloud_Accounting.Models;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
-using System.IO;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
-using System.Reflection;
-using MongoDB.Driver;
-using MongoDB.Bson;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Superior_Cloud_Accounting.Controllers
 {
@@ -48,17 +42,21 @@ namespace Superior_Cloud_Accounting.Controllers
             {
                 Name = name,
                 Email = email,
-                Message = message
+                Message = message,
             });
             _context.SaveChanges();
 
-            /*
-            await _formService.Create(new Form
-            {
-                Name = name,
-                Email = email,
-            });
-           */
+
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("tannerhelms01@gmail.com", "Tanner Helms");
+            var subject = "New form submitted!";
+            var to = new EmailAddress("superior.cloud.acctg@gmail.com", "Stephanie Helms");
+            var plainTextContent = $"Name: {name}\r\nEmail: {email}\r\nMessage: {message}";
+            var htmlContent = $"Name: {name}\r\nEmail: {email}\r\nMessage: {message}";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+
             return JsonConvert.SerializeObject(dict);
         }
 
