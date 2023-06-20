@@ -36,8 +36,9 @@ namespace Superior_Cloud_Accounting.Controllers
         [HttpPost]
         public async Task<ActionResult<string>> Submit(string name, string email, string message)
         {
+            
             Dictionary<string, string> dict = new Dictionary<string, string>();
-            dict["status"] = "Success!";
+            /*
             await _context.Forms.AddAsync(new Form
             {
                 Name = name,
@@ -45,7 +46,7 @@ namespace Superior_Cloud_Accounting.Controllers
                 Message = message,
             });
             _context.SaveChanges();
-
+            */
 
             var apiKey = "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";
             var client = new SendGridClient(apiKey);
@@ -57,6 +58,10 @@ namespace Superior_Cloud_Accounting.Controllers
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
 
+            to = new EmailAddress("tannerhelmsllc@gmail.com", "Tanner Helms");
+            msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            response = await client.SendEmailAsync(msg);
+            dict["status"] = "Success!";
             return JsonConvert.SerializeObject(dict);
         }
 
